@@ -3,7 +3,7 @@ import configparser
 import mysql.connector
 
 config = configparser.ConfigParser()
-config.read('../../configuration.ini')
+config.read('configuration.ini')
 mysql_config = config['mysql']
 
 
