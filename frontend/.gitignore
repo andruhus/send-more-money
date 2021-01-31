@@ -1,5 +1,5 @@
-/frontend.iml
-/src/react-app-env.d.ts
+frontend.iml
+src/react-app-env.d.ts
 package-lock.json
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 

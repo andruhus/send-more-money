@@ -1,4 +1,4 @@
-import math
+from database import db_execute
 
-print("main.py")
-print(math.sin(99))
+print(db_execute("SELECT VERSION();"))
+print(db_execute("SELECT VERSION();"))
