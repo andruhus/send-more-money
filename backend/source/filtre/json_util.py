@@ -1,10 +1,10 @@
 import json
 
 
-def read_json_data(path: str) -> [str]:
-    return json.load(open(path))['data']
+def read_json(path: str):
+    return json.load(open(path))
 
 
-def write_json_data(path: str, arr: [str]) -> None:
+def write_json(path: str, data) -> None:
     with open(path, 'w') as outfile:
-        json.dump({'data': arr}, outfile, indent=4)
+        json.dump(data, outfile, indent=4)
