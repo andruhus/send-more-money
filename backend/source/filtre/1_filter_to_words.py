@@ -1,11 +1,12 @@
-import json
-
 from lazy_streams import stream
 
-data: [str] = json.load(open("0_data.json"))["data"]
+from json_util import read_json_data as read_json
+from json_util import write_json_data as write_json
 
-result: [str] = stream(data).filter(lambda s: s.isalpha()).to_list()
-result_data = {"data": result}
+data: [str] = read_json('0_data.json')
 
-with open('1_post_filter.json', 'w') as outfile:
-    json.dump(result_data, outfile, indent=4)
+result: [str] = stream(data)\
+    .filter(lambda s: s.isalpha())\
+    .to_list()
+
+write_json('1_post_filter.json', result)
