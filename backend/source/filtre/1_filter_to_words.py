@@ -9,4 +9,8 @@ result: [str] = stream(data) \
     .filter(lambda s: s.isalpha()) \
     .to_list()
 
-write_json('1_post_filter.json', {'data': result})
+write_json('1_post_filter.json',
+           {
+               'length': len(result),
+               'data': result
+           })
