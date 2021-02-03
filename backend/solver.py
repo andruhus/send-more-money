@@ -1,4 +1,5 @@
 import numpy as np
+from letter_equations import set_equation_for_all_letter
 def check_combination(add1,add2,sum):
     return len(set(add1+add2+sum)) <= 10
 
@@ -15,27 +16,13 @@ def create_dict_of_letters(str):
         res[str[letter_ind]].append(letter_ind)
     return res
 
-def get_free_row_index(matrix):
-    for i in range(matrix.shape[0]):
-        if not matrix[i].any():
-            return i
-
-def create_row_in_matrix(list_of_indexes,total_len):
-    row = np.zeros(total_len)
-    for index in list_of_indexes:
-        row[index] = 1
-    return row
-
-
-
-def set_equation_for_one_letter(matrix,):
-    pass
-
 def solve(add1,add2,sum):
     if check_combination(add1,add2,sum):
         total_len = len(add1) + len(add2) + len(sum)
         matrix, extra_column = empty_system_initiate(total_len)
         lett_dict = create_dict_of_letters(add1+add2+sum)
+        set_equation_for_all_letter(matrix,lett_dict)
+
         pass
 
-solve('send','more','money')
+#solve('send','more','money')
