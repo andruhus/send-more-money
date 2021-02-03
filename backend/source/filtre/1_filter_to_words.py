@@ -1,7 +1,6 @@
 from lazy_streams import stream
 
-from json_util import read_json
-from json_util import write_json as write_json
+from json_util import read_json, write_json
 
 data: [str] = read_json('0_data.json')['data']
 
