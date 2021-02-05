@@ -7,4 +7,4 @@ def read_json(path: str):
 
 def write_json(path: str, data) -> None:
     with open(path, 'w') as outfile:
-        json.dump(data, outfile, indent=4)
+        json.dump(data, outfile, indent=4, default=lambda o: o.__dict__)
