@@ -31,7 +31,3 @@ def mock_solution(add_1: str, add_2: str, product: str) -> [{str: int}]:
             answer = {letters[i]: int(numbers[i]) for i in range(len(letters))}
             res.append(answer)
     return res
-
-
-# solution: [{str: int}] = mock_solution('send', 'more', 'money')
-# print(solution)

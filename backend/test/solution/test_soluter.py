@@ -1,6 +1,6 @@
 import unittest
 
-from source.solution.test_solve import mock_solution
+from source.solution.mock_solve import mock_solution
 
 
 class TestSolver(unittest.TestCase):
