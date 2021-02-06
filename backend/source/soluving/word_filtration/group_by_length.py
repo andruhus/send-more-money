@@ -16,14 +16,14 @@ def group_by_length(words: [str]) -> [[str]]:
 
 
 def analise_words():
-    file_data = read_file('all_words.json')
+    file_data = read_file('../words/all_words.json')
     json_data = read_json_format(file_data)
     words: [str] = json_data['words']
     result: [[str]] = group_by_length(words)
     for i in range(1, len(result)):
         if len(result[i]) == 0:
             break
-        overwrite_file('filtered_words/%s_length_words.json' % i,
+        overwrite_file('../words/%s_length_words.json' % i,
                        to_json_format({
                            'length': len(result[i]),
                            'words': result[i]
