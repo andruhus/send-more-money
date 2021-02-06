@@ -16,7 +16,7 @@ def group_by_length(words: [str]) -> [[str]]:
 
 def analise_words():
     words: [str] = read_json('all_words.json')['words']
-    result = group_by_length(words)
+    result: [[str]] = group_by_length(words)
     for i in range(1, len(result)):
         if len(result[i]) == 0:
             break
