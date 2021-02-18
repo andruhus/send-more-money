@@ -17,12 +17,13 @@ def create_dict_of_letters(str):
     return res
 
 def solve(add1,add2,sum):
+    result = {}
     if check_combination(add1,add2,sum):
         total_len = len(add1) + len(add2) + len(sum)
         matrix, extra_column = empty_system_initiate(total_len)
         lett_dict = create_dict_of_letters(add1+add2+sum)
         set_equation_for_all_letter(matrix,lett_dict)
+    return result
 
-        pass
 
 #solve('send','more','money')
