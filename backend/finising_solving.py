@@ -48,7 +48,8 @@ def create_row(prev_shift,next_shift,list_of_indeces,total):
 def get_indeces_list(i,len1,len2,len3):
     total = len3 + len2 + len1
     ind_sum = total - 1 - i
-    ind_add1, ind_add2 = None
+    ind_add1 = None
+    ind_add2 = None
     if i < len1:
         ind_add1 = total - 1 - i - len3 - len2
     if i < len2:
