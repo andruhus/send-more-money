@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.optimize as sco
-
+from letter_equations import get_free_row_index
 
 def get_all_results(matrix, extra_column, len1, len2, len3):
     results = []
@@ -27,8 +27,15 @@ def get_result_for_shift(shift, matrix, extra_column, len1, len2, len3):
 def adding_equation(shift_list, matrix, extra_column, len1, len2, len3):
     for i in range(len3):
         list_of_indeces = get_indeces_list(i,len1,len2,len3)
+        free_row = get_free_row_index(matrix)
+        if i != 0:
+            matrix[free_row],extra_column[free_row] = create_row(shift_list[i-1],shift_list[i],list_of_indeces,len1+len2+len3)
+        else:
+            matrix[free_row],extra_column[free_row] = create_row(0,shift_list[i],list_of_indeces,len1+len2+len3)
 
 
+
+def create_row(prev_shift,next_shift,list_of_indeces,total):
     pass
 
 def get_indeces_list(i,len1,len2,len3):
