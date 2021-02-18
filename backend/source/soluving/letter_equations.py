@@ -7,9 +7,9 @@ def get_free_row_index(matrix):
             return i
 
 
-def create_row_in_matrix(list_of_indexes, total_len):
+def create_row_in_matrix(list_of_indeces, total_len):
     row = np.zeros(total_len)
-    for index in list_of_indexes:
+    for index in list_of_indeces:
         row[index] = 1
     return row
 
