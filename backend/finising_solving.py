@@ -4,7 +4,7 @@ def get_all_results(matrix,extra_column,len1,len2,len3):
     results = []
     for shift in range(len3):
         temp_res = get_result_for_shift(shift,matrix,extra_column,len1,len2,len3)
-        if len(temp_res.keys()) > 0:
+        if not temp_res == None:
             results.append(temp_res)
     return results
 
@@ -13,15 +13,21 @@ def integer_to_binary_list(i):
     return [int(x) for x in str(binary)]
 
 def get_result_for_shift(shift,matrix,extra_column,len1,len2,len3):
-    result = {}
     shift_list = integer_to_binary_list(shift)
     adding_equation(shift_list,matrix,extra_column,len1,len2,len3)
     solution = solve_sys_lin_equations(matrix,extra_column)
-    return result
+    if analyze_solution(solution):
+        return solution
 
 def adding_equation(shift_list,matrix,extra_column,len1,len2,len3):
     pass
 
+def analyze_solution(solution):
+    digits = [0,1,2,3,4,5,6,7,8,9]
+    for x in solution:
+        if not x in digits:
+            return False
+    return True
 
 def solve_sys_lin_equations(matrix,extra_column):
     extended_matr = np.concatenate((matrix,extra_column),axis = 1)
