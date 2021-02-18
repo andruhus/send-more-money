@@ -36,7 +36,14 @@ def adding_equation(shift_list, matrix, extra_column, len1, len2, len3):
 
 
 def create_row(prev_shift,next_shift,list_of_indeces,total):
-    pass
+    row = np.zeros(total)
+    if not list_of_indeces[0] == None:
+        row[list_of_indeces[0]] = 1
+    if not list_of_indeces[1] == None:
+        row[list_of_indeces[1]] = 1
+    row[list_of_indeces[2]] = -1
+    extr_col = 10 * next_shift - prev_shift
+    return row,extr_col
 
 def get_indeces_list(i,len1,len2,len3):
     total = len3 + len2 + len1
