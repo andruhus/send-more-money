@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type Created = {
+type Question = {
   id: number;
   name: string;
 };
@@ -23,17 +23,19 @@ export const PuzzleListPage = (): ReactElement => {
   const history = useHistory();
   const classes = useStyles();
 
-  const columns: Column<Created>[] = [
+  const columns: Column<Question>[] = [
     { title: "Name", render: (x) => x.name },
     {
-      render: (x) => (
-        <Button onClick={() => history.push(`${interactiveRouting}/${x.id}`)}>
+      render: (question) => (
+        <Button
+          onClick={() => history.push(`${interactiveRouting}/${question.id}`)}
+        >
           Try to solve
         </Button>
       ),
     },
   ];
-  const data: Created[] = [
+  const data: Question[] = [
     {
       id: 4,
       name: "Test task",
