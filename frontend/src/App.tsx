@@ -15,7 +15,11 @@ function App() {
       <Switch>
         <Route path={homeRouting} exact component={MainPage} />
         <Route path={puzzleListRouting} exact component={PuzzleListPage} />
-        <Route path={interactiveRouting} exact component={InteractivePage} />
+        <Route
+          path={`${interactiveRouting}/:questionId`}
+          exact
+          component={InteractivePage}
+        />
         <Route path={"*"}>
           <Redirect to={homeRouting} />
         </Route>
