@@ -17,6 +17,13 @@ import {
 } from "../constant/routes";
 
 const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    position: "static",
+  },
+  homeLink: {
+    edge: "start",
+    color: "inherit",
+  },
   linkList: {
     display: "flex",
   },
@@ -31,9 +38,9 @@ export const MainPage = (): ReactElement => {
   ];
 
   return (
-    <AppBar position="static">
+    <AppBar className={classes.root}>
       <Toolbar>
-        <IconButton edge={"start"} color={"inherit"}>
+        <IconButton className={classes.homeLink}>
           <Home fontSize={"large"} />
         </IconButton>
         <List className={classes.linkList}>
