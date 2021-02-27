@@ -10,7 +10,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const ListPage = (): ReactElement => {
+export const PuzzleListPage = (): ReactElement => {
   const history = useHistory();
   const classes = useStyles();
 

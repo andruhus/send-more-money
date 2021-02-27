@@ -1,24 +1,51 @@
 import React, { ReactElement } from "react";
-import { useHistory } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
-import { listRouting } from "../constant/routes";
+import { NavLink } from "react-router-dom";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import {
+  AppBar,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Toolbar,
+} from "@material-ui/core";
+import { Home } from "@material-ui/icons";
+import {
+  aboutAsRouting,
+  interactiveRouting,
+  puzzleListRouting,
+} from "../constant/routes";
 
-const useStyles = makeStyles(() => ({
-  root: {
-    color: "green",
+const useStyles = makeStyles((theme: Theme) => ({
+  linkList: {
+    display: "flex",
   },
 }));
 
 export const MainPage = (): ReactElement => {
-  const history = useHistory();
   const classes = useStyles();
+  const navLinks = [
+    { title: "Puzzle List", path: puzzleListRouting },
+    { title: "Interactive", path: interactiveRouting },
+    { title: "About Us", path: aboutAsRouting },
+  ];
 
   return (
-    <div className={classes.root}>
-      Home page
-      <br />
-      <Button onClick={() => history.push(listRouting)}>List</Button>
-    </div>
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton edge={"start"} color={"inherit"}>
+          <Home fontSize={"large"} />
+        </IconButton>
+        <List className={classes.linkList}>
+          {navLinks.map((link) => (
+            <NavLink to={link.path}>
+              <ListItem>
+                <ListItemText primary={link.title} />
+              </ListItem>
+            </NavLink>
+          ))}
+        </List>
+      </Toolbar>
+    </AppBar>
   );
 };

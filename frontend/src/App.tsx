@@ -1,12 +1,13 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import {
+  aboutAsRouting,
   homeRouting,
   interactiveRouting,
-  listRouting,
+  puzzleListRouting,
 } from "./constant/routes";
 import { MainPage } from "./page/MainPage";
-import { ListPage } from "./page/ListPage";
+import { PuzzleListPage } from "./page/PuzzleListPage";
 import { InteractivePage } from "./page/InteractivePage";
 
 function App() {
@@ -14,8 +15,9 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path={homeRouting} exact component={MainPage} />
-        <Route path={listRouting} exact component={ListPage} />
+        <Route path={puzzleListRouting} exact component={PuzzleListPage} />
         <Route path={interactiveRouting} exact component={InteractivePage} />
+        <Route path={aboutAsRouting} exact component={PuzzleListPage} />
         <Route path={"*"}>
           <Redirect to={homeRouting} />
         </Route>
