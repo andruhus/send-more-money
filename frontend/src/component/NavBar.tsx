@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "&.active": {
       textDecoration: "underline",
     },
-    "&:hover": {
-      textDecorationStyle: "dotted",
-    },
   },
 }));
 
