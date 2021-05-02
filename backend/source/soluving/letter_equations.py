@@ -1,4 +1,6 @@
 import numpy as np
+
+
 def get_free_row_index(matrix):
     for i in range(matrix.shape[0]):
         if not matrix[i].any():
