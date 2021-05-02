@@ -38,4 +38,3 @@ for i in range(0, l):
 print("start:\t", start)
 print("count:\t", var)
 print("stop:\t", datetime.now().time())
-
