@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
-import { homeRouting, listRouting } from "../constant/routes";
+import { NavBar } from "../component/NavBar";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -11,16 +11,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const InteractivePage = (): ReactElement => {
-  const history = useHistory();
   const classes = useStyles();
+  const { questionId } = useParams();
 
   return (
-    <div className={classes.root}>
-      List page
-      <br />
-      <Button onClick={() => history.push(homeRouting)}>Home</Button>
-      <br />
-      <Button onClick={() => history.push(listRouting)}>List</Button>
-    </div>
+    <>
+      <NavBar />
+      <div className={classes.root}>Interactive page to task #{questionId}</div>
+    </>
   );
 };

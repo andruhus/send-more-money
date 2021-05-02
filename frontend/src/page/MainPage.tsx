@@ -1,24 +1,19 @@
 import React, { ReactElement } from "react";
-import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
-import { listRouting } from "../constant/routes";
+import { NavBar } from "../component/NavBar";
 
 const useStyles = makeStyles(() => ({
-  root: {
-    color: "green",
-  },
+  root: {},
 }));
 
 export const MainPage = (): ReactElement => {
-  const history = useHistory();
   const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      Home page
-      <br />
-      <Button onClick={() => history.push(listRouting)}>List</Button>
-    </div>
+    <>
+      <NavBar />
+      <div className={classes.root}>
+        Welcome to Puzzle pet project by It-Ad community
+      </div>
+    </>
   );
 };
