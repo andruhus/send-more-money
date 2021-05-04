@@ -6,6 +6,7 @@ import { interactiveRouting } from "../constant/routes";
 import { useHistory } from "react-router-dom";
 import MaterialTable, { Column } from "material-table";
 import { tableIcons } from "../util/table-util";
+import { QuestionResponse } from "../dto/response/QuestionResponse";
 
 const useStyles = makeStyles((theme: Theme) => ({
   table: {
@@ -14,20 +15,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-type Question = {
-  id: number;
-  name: string;
-};
-
 export const PuzzleListPage = (): ReactElement => {
   const history = useHistory();
   const classes = useStyles();
 
-  const columns: Column<Question>[] = [
+  const columns: Column<QuestionResponse>[] = [
     { title: "Name", render: (x) => x.name },
+    { title: "Tried", render: (x) => x.triedCount },
+    { title: "Solved", render: (x) => x.solvedCount },
+    { title: "Likes", render: (x) => x.likeCount },
     {
+      title: "Action",
       render: (question) => (
         <Button
+          variant="contained"
+          color="primary"
           onClick={() => history.push(`${interactiveRouting}/${question.id}`)}
         >
           Try to solve
@@ -35,10 +37,23 @@ export const PuzzleListPage = (): ReactElement => {
       ),
     },
   ];
-  const data: Question[] = [
+
+  // TODO uncomment after task TR-29
+  // const [, data] = useGetAllQuestionInfos();
+  const data = [
+    {
+      id: 1,
+      name: "send + more = money",
+      triedCount: 19,
+      solvedCount: 15,
+      likeCount: 11,
+    },
     {
       id: 4,
       name: "Test task",
+      triedCount: 14,
+      solvedCount: 7,
+      likeCount: 4,
     },
   ];
 
@@ -46,12 +61,16 @@ export const PuzzleListPage = (): ReactElement => {
     <>
       <NavBar />
       <Paper className={classes.table}>
-        <MaterialTable
-          title={"Demo Title"}
-          columns={columns}
-          data={data}
-          icons={tableIcons}
-        />
+        {data ? (
+          <MaterialTable
+            title={"Demo Title"}
+            columns={columns}
+            data={data}
+            icons={tableIcons}
+          />
+        ) : (
+          <>Loading...</>
+        )}
       </Paper>
     </>
   );
