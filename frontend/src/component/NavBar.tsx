@@ -28,9 +28,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     ...theme.typography.h5,
     color: "white",
     textDecoration: "none",
-    "&.active": {
-      textDecoration: "underline",
-    },
   },
 }));
 
