@@ -25,20 +25,32 @@ const useStyles = makeStyles(() => ({
 
 type Props = {
   word: string;
+  maxCharacters: number;
+  setNumber: (char: string, value: string) => void;
+  answer: any;
 };
 
 export const WordQuizInput = (props: Props) => {
   const classes = useStyles();
   return (
     <div className={classes.word}>
-      {props.word.split("").map((it) => (
+      {[
+        ...Array(props.maxCharacters - props.word.length).fill(""),
+        ...props.word.split(""),
+      ].map((it) => (
         <TextField
+          id={it}
           key={it}
           className={classes.cell}
           type={"number"}
-          variant={it === " " ? "standard" : "outlined"}
+          variant={it ? "outlined" : "standard"}
           label={it}
-          disabled={it === " "}
+          value={props.answer[it] || ""}
+          disabled={!it}
+          InputProps={{ inputProps: { min: 0, max: 10 } }}
+          onChange={(event) =>
+            props.setNumber(event.target.id, event.target.value)
+          }
         />
       ))}
     </div>
