@@ -7,8 +7,8 @@ import {
   IconButton,
   List,
   ListItem,
-  ListItemText,
   Toolbar,
+  Typography,
 } from "@material-ui/core";
 import { Home } from "@material-ui/icons";
 import { homeRouting, puzzleListRouting } from "../constant/routes";
@@ -52,7 +52,9 @@ export const NavBar = (): ReactElement => {
           {navLinks.map((link, index) => (
             <NavLink to={link.path} className={classes.navLink} key={index}>
               <ListItem>
-                <ListItemText primary={link.title} />
+                <Typography className={classes.navLink}>
+                  {link.title}
+                </Typography>
               </ListItem>
             </NavLink>
           ))}
