@@ -30,8 +30,7 @@ export const InteractivePage = (): ReactElement => {
 
   const setNumber = (char: string, value: string) => {
     answer.set(char, value === "" ? null : +value);
-    const newMap = new Map(answer);
-    setAnswer(newMap);
+    setAnswer(new Map(answer));
   };
 
   return (

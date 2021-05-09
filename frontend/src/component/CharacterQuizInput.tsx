@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const useStyles = makeStyles(() => ({
   cell: {
@@ -23,7 +23,20 @@ type Props = {
 
 export const CharacterQuizInput = (props: Props) => {
   const classes = useStyles();
+  const [isError, setError] = useState(false);
 
+  useEffect(() => {
+    let newVar = props.answer.get(props.char);
+    if (
+      Array.from(props.answer.values())
+        .filter((it) => it !== null)
+        .filter((it) => it === newVar).length > 1
+    ) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }, [props.answer]);
   return (
     <TextField
       className={classes.cell}
@@ -31,6 +44,7 @@ export const CharacterQuizInput = (props: Props) => {
       variant={"outlined"}
       label={props.char}
       value={props.answer.get(props.char) || ""}
+      error={isError}
       onChange={(event) => props.setNumber(props.char, event.target.value)}
     />
   );
