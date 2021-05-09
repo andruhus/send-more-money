@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { NavBar } from "../component/NavBar";
 import { QuestionTaskResponse } from "../dto/response/QuestionTaskResponse";
-import { WordQuizInput } from "../component/WordQuizInput";
+import { WordQuizInput } from "../component/interactive/WordQuizInput";
 
 const useStyles = makeStyles(() => ({
   root: {},
