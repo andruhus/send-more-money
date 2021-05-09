@@ -20,6 +20,7 @@ type Props = {
   setNumber: (key: string, value: string) => void;
   answer: Map<string, number | null>;
   isSubmitClicked: boolean;
+  isZeroPossible: boolean;
 };
 
 export const CharacterQuizInput = (props: Props) => {
@@ -50,6 +51,10 @@ export const CharacterQuizInput = (props: Props) => {
         setError(true);
         return;
       }
+    }
+    if (!props.isZeroPossible && newValue === 0) {
+      setError(true);
+      return;
     }
     setError(false);
   }, [props.char, props.answer, props.isSubmitClicked, correctNumbers]);
