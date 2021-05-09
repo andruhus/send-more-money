@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { NavBar } from "../component/NavBar";
 import { QuestionTaskResponse } from "../dto/response/QuestionTaskResponse";
-import { WordQuizInput } from "../component/interactive/WordQuizInput";
+import { PlayGround } from "../component/interactive/PlayGround";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -38,23 +38,8 @@ export const InteractivePage = (): ReactElement => {
       <NavBar />
       <div>ToDo get task by id: {questionId}</div>
       <div className={classes.root}>
-        <WordQuizInput
-          word={task.addition1}
-          maxCharacters={task.sum.length}
-          answer={answer}
-          setNumber={setNumber}
-          isSubmitClicked={false}
-        />
-        <WordQuizInput
-          word={task.addition2}
-          maxCharacters={task.sum.length}
-          answer={answer}
-          setNumber={setNumber}
-          isSubmitClicked={true}
-        />
-        <WordQuizInput
-          word={task.sum}
-          maxCharacters={task.sum.length}
+        <PlayGround
+          task={task}
           answer={answer}
           setNumber={setNumber}
           isSubmitClicked={false}
