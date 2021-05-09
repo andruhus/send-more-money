@@ -6,6 +6,13 @@ import { QuestionTaskResponse } from "../../dto/response/QuestionTaskResponse";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
+  title: {
+    ...theme.typography.h5,
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "25px",
+      marginLeft: "50px",
+    },
+  },
   answerWrapper: {
     display: "flex",
     flexDirection: "column",
@@ -35,6 +42,7 @@ export const Answer = (props: Props): ReactElement => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Typography className={classes.title}>Your Answer:</Typography>
       <div className={classes.answerWrapper}>
         {Array.from(props.answer.keys()).map((key, index) => (
           <div key={index} className={classes.answerItem}>

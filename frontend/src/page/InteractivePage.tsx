@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       flexDirection: "row",
     },
   },
+  title: {
+    ...theme.typography.h5,
+    margin: "25px",
+  },
   playGround: {
     flexGrow: 2,
   },
@@ -55,7 +59,9 @@ export const InteractivePage = (): ReactElement => {
   return (
     <>
       <NavBar />
-      <Typography>ToDo get task by id: {questionId}</Typography>
+      <Typography className={classes.title}>
+        ToDo get task by id: {questionId}
+      </Typography>
       <div className={classes.root}>
         <div className={classes.playGround}>
           <PlayGround

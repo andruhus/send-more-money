@@ -1,11 +1,19 @@
 import React, { ReactElement } from "react";
 import { QuestionTaskResponse } from "../../dto/response/QuestionTaskResponse";
 import { WordQuizInput } from "./WordQuizInput";
-import { makeStyles } from "@material-ui/core/styles";
-const useStyles = makeStyles(() => ({
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
+  },
+  title: {
+    ...theme.typography.h5,
+    marginLeft: "50px",
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "25px",
+    },
   },
 }));
 
@@ -20,6 +28,7 @@ export const PlayGround = (props: Props): ReactElement => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Typography className={classes.title}>Try to solve</Typography>
       <WordQuizInput
         word={props.task.addition1}
         maxCharacters={props.task.sum.length}
