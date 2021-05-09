@@ -20,14 +20,13 @@ type Props = {
   setNumber: (key: string, value: string) => void;
   answer: Map<string, { value: number | null; errorMessage: string }>;
   isSubmitClicked: boolean;
-  isZeroPossible: boolean;
 };
 
 export const CharacterQuizInput = (props: Props) => {
   const classes = useStyles();
   const value = props.answer.get(props.char) || {
-    value: -1,
-    errorMessage: "string",
+    value: null,
+    errorMessage: "",
   };
 
   return (

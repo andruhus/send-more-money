@@ -35,7 +35,6 @@ export const WordQuizInput = (props: Props) => {
           char={it}
           setNumber={props.setNumber}
           isSubmitClicked={props.isSubmitClicked}
-          isZeroPossible={index !== 0}
         />
       ))}
     </div>

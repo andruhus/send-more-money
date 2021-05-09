@@ -6,7 +6,7 @@ import { NavBar } from "../component/NavBar";
 import { QuestionTaskResponse } from "../dto/response/QuestionTaskResponse";
 import { PlayGround } from "../component/interactive/PlayGround";
 import { Answer } from "../component/interactive/Answer";
-import { Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+type AnswerData = { value: number | null; errorMessage: string };
+type AnswerMap = Map<string, AnswerData>;
+
 export const InteractivePage = (): ReactElement => {
   const classes = useStyles();
   const { questionId } = useParams();
@@ -42,29 +45,22 @@ export const InteractivePage = (): ReactElement => {
     addition2: "more",
     sum: "money",
   };
-  const [answer, setAnswer] = useState(
-    new Map<string, { value: number | null; errorMessage: string }>()
-  );
-  const submitClicked = true;
-
-  const correctNumbers = [...Array.from(new Array(10).keys()), null];
+  const [answer, setAnswer] = useState<AnswerMap>();
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   useEffect(() => {
     const data = (task.addition1 + task.addition2 + task.sum)
       .split("")
       .reduce(
         (map, o) => map.set(o, { value: null, errorMessage: "Required" }),
-        new Map<string, { value: number | null; errorMessage: string }>()
+        new Map<string, AnswerData>()
       );
     setAnswer(data);
   }, [task.addition1, task.addition2, task.sum]);
 
-  const getErrorMessage = (
-    char: string,
-    newAnswer: Map<string, { value: number | null; errorMessage: string }>
-  ): string => {
+  const getErrorMessage = (char: string, newAnswer: AnswerMap) => {
     let value: number | null = newAnswer.get(char)!.value;
-    if (!correctNumbers.includes(value)) {
+    if (![...Array.from(new Array(10).keys()), null].includes(value)) {
       return "Not possible";
     }
     if (
@@ -89,13 +85,21 @@ export const InteractivePage = (): ReactElement => {
   };
 
   const setNumber = (char: string, value: string) => {
+    if (!answer) return;
     answer.get(char)!.value = value === "" ? null : +value;
-
     Array.from(answer.keys()).forEach((key) => {
       answer.get(key)!.errorMessage = getErrorMessage(key, answer);
     });
     setAnswer(new Map(answer));
   };
+
+  if (!answer)
+    return (
+      <>
+        <NavBar />
+        <Typography variant={"h4"}>Loading...</Typography>
+      </>
+    );
 
   return (
     <>
@@ -121,6 +125,7 @@ export const InteractivePage = (): ReactElement => {
           />
         </div>
       </div>
+      <Button onClick={() => setSubmitClicked(true)}>Submit</Button>
     </>
   );
 };

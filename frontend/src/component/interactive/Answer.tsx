@@ -54,11 +54,6 @@ export const Answer = (props: Props): ReactElement => {
               char={key}
               setNumber={props.setNumber}
               isSubmitClicked={props.isSubmitClicked}
-              isZeroPossible={
-                props.task.addition1.indexOf(key) !== 0 &&
-                props.task.addition2.indexOf(key) !== 0 &&
-                props.task.sum.indexOf(key) !== 0
-              }
             />
           </div>
         ))}
