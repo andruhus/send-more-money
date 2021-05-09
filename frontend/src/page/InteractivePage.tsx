@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,17 +20,18 @@ export const InteractivePage = (): ReactElement => {
     sum: "money",
   };
 
-  const [answer, setAnswer] = useState(
-    Object.fromEntries(
-      Array.from(new Set(task.addition1 + task.addition2 + task.sum)).map(
-        (it) => [it, null] as [string, number | null]
-      )
-    )
-  );
+  const [answer, setAnswer] = useState(new Map<string, number | null>());
+  useEffect(() => {
+    let data = (task.addition1 + task.addition2 + task.sum)
+      .split("")
+      .reduce((map, o) => map.set(o, null), new Map<string, number | null>());
+    setAnswer(data);
+  }, [task.addition1, task.addition2, task.sum]);
+
   const setNumber = (char: string, value: string) => {
-    if (value !== "" && (+value < 0 || +value > 10)) return;
-    answer[char] = value === "" ? null : +value;
-    setAnswer({ ...answer });
+    answer.set(char, value === "" ? null : +value);
+    const newMap = new Map(answer);
+    setAnswer(newMap);
   };
 
   return (
@@ -41,20 +42,20 @@ export const InteractivePage = (): ReactElement => {
         <WordQuizInput
           word={task.addition1}
           maxCharacters={task.sum.length}
-          setNumber={setNumber}
           answer={answer}
+          setNumber={setNumber}
         />
         <WordQuizInput
           word={task.addition2}
           maxCharacters={task.sum.length}
-          setNumber={setNumber}
           answer={answer}
+          setNumber={setNumber}
         />
         <WordQuizInput
           word={task.sum}
           maxCharacters={task.sum.length}
-          setNumber={setNumber}
           answer={answer}
+          setNumber={setNumber}
         />
       </div>
     </>

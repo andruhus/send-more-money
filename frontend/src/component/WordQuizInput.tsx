@@ -1,57 +1,42 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
 import React from "react";
+import { CharacterQuizInput } from "./CharacterQuizInput";
+import { EmptyCharacterQuizInput } from "./EmptyCharacterQuizInput";
 
 const useStyles = makeStyles(() => ({
-  word: {
-    color: "blue",
+  root: {
     display: "flex",
     justifyContent: "flex-end",
-  },
-  cell: {
-    flexGrow: 1,
-    maxWidth: "56px",
-    maxHeight: "56px",
-    margin: "5.6px",
-    "& input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button": {
-      "-webkit-appearance": "none",
-      margin: 0,
-    },
-    "& div:before": {
-      borderBottomStyle: "none!important",
-    },
   },
 }));
 
 type Props = {
   word: string;
   maxCharacters: number;
+  answer: Map<string, number | null>;
   setNumber: (char: string, value: string) => void;
-  answer: any;
 };
 
 export const WordQuizInput = (props: Props) => {
   const classes = useStyles();
+
   return (
-    <div className={classes.word}>
+    <div className={classes.root}>
       {[
         ...Array(props.maxCharacters - props.word.length).fill(""),
         ...props.word.split(""),
-      ].map((it) => (
-        <TextField
-          id={it}
-          key={it}
-          className={classes.cell}
-          type={"number"}
-          variant={it ? "outlined" : "standard"}
-          label={it}
-          value={props.answer[it] || ""}
-          disabled={!it}
-          InputProps={{ inputProps: { min: 0, max: 10 } }}
-          onChange={(event) =>
-            props.setNumber(event.target.id, event.target.value)
-          }
-        />
+      ].map((it, index) => (
+        <div key={index}>
+          {it ? (
+            <CharacterQuizInput
+              answer={props.answer}
+              char={it}
+              setNumber={props.setNumber}
+            />
+          ) : (
+            <EmptyCharacterQuizInput />
+          )}
+        </div>
       ))}
     </div>
   );
