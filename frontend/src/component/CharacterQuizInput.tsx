@@ -24,18 +24,23 @@ type Props = {
 export const CharacterQuizInput = (props: Props) => {
   const classes = useStyles();
   const [isError, setError] = useState(false);
+  const correctNumbers = Array.from(new Array(10).keys());
 
   useEffect(() => {
-    let newVar = props.answer.get(props.char);
+    const newValue = props.answer.get(props.char) || null;
     if (
       Array.from(props.answer.values())
         .filter((it) => it !== null)
-        .filter((it) => it === newVar).length > 1
+        .filter((it) => it === newValue).length > 1
     ) {
       setError(true);
-    } else {
-      setError(false);
+      return;
     }
+    if (![...correctNumbers, null].includes(newValue)) {
+      setError(true);
+      return;
+    }
+    setError(false);
   }, [props.answer]);
   return (
     <TextField
