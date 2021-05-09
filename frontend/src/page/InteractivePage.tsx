@@ -42,17 +42,58 @@ export const InteractivePage = (): ReactElement => {
     addition2: "more",
     sum: "money",
   };
-  const [answer, setAnswer] = useState(new Map<string, number | null>());
+  const [answer, setAnswer] = useState(
+    new Map<string, { value: number | null; errorMessage: string }>()
+  );
+  const submitClicked = true;
+
+  const correctNumbers = [...Array.from(new Array(10).keys()), null];
 
   useEffect(() => {
     const data = (task.addition1 + task.addition2 + task.sum)
       .split("")
-      .reduce((map, o) => map.set(o, null), new Map<string, number | null>());
+      .reduce(
+        (map, o) => map.set(o, { value: null, errorMessage: "Required" }),
+        new Map<string, { value: number | null; errorMessage: string }>()
+      );
     setAnswer(data);
   }, [task.addition1, task.addition2, task.sum]);
 
+  const getErrorMessage = (
+    char: string,
+    newAnswer: Map<string, { value: number | null; errorMessage: string }>
+  ): string => {
+    let value: number | null = newAnswer.get(char)!.value;
+    if (!correctNumbers.includes(value)) {
+      return "Not possible";
+    }
+    if (
+      value === 0 &&
+      (task.addition1.indexOf(char) === 0 ||
+        task.addition2.indexOf(char) === 0 ||
+        task.sum.indexOf(char) === 0)
+    ) {
+      return "Not possible 0";
+    }
+    if (
+      Array.from(newAnswer.values())
+        .filter((it) => it.value !== null)
+        .filter((it) => it.value === value).length > 1
+    ) {
+      return "Duplication";
+    }
+    if (submitClicked && value === null) {
+      return "Required";
+    }
+    return "";
+  };
+
   const setNumber = (char: string, value: string) => {
-    answer.set(char, value === "" ? null : +value);
+    answer.get(char)!.value = value === "" ? null : +value;
+
+    Array.from(answer.keys()).forEach((key) => {
+      answer.get(key)!.errorMessage = getErrorMessage(key, answer);
+    });
     setAnswer(new Map(answer));
   };
 
@@ -68,7 +109,7 @@ export const InteractivePage = (): ReactElement => {
             task={task}
             answer={answer}
             setNumber={setNumber}
-            isSubmitClicked={true}
+            isSubmitClicked={submitClicked}
           />
         </div>
         <div className={classes.answer}>
@@ -76,7 +117,7 @@ export const InteractivePage = (): ReactElement => {
             task={task}
             answer={answer}
             setNumber={setNumber}
-            isSubmitClicked={true}
+            isSubmitClicked={submitClicked}
           />
         </div>
       </div>

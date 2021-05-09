@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
 type Props = {
   word: string;
   maxCharacters: number;
-  answer: Map<string, number | null>;
+  answer: Map<string, { value: number | null; errorMessage: string }>;
   setNumber: (char: string, value: string) => void;
   isSubmitClicked: boolean;
 };

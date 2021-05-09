@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Tooltip } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const useStyles = makeStyles(() => ({
   cell: {
@@ -18,65 +18,31 @@ const useStyles = makeStyles(() => ({
 type Props = {
   char: string;
   setNumber: (key: string, value: string) => void;
-  answer: Map<string, number | null>;
+  answer: Map<string, { value: number | null; errorMessage: string }>;
   isSubmitClicked: boolean;
   isZeroPossible: boolean;
 };
 
 export const CharacterQuizInput = (props: Props) => {
   const classes = useStyles();
-  const [value, setValue] = useState<number | null>(null);
-  const [isError, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const correctNumbers = Array.from(new Array(10).keys());
+  const value = props.answer.get(props.char) || {
+    value: -1,
+    errorMessage: "string",
+  };
 
-  useEffect(() => {
-    const undefinedNewVal = props.answer.get(props.char);
-    const newValue = undefinedNewVal === undefined ? null : undefinedNewVal;
-    setValue(newValue);
-    if (![...correctNumbers, null].includes(newValue)) {
-      setError(true);
-      setErrorMessage("Not possible");
-      return;
-    }
-    if (
-      Array.from(props.answer.values())
-        .filter((it) => it !== null)
-        .filter((it) => it === newValue).length > 1
-    ) {
-      setError(true);
-      setErrorMessage("Duplication");
-      return;
-    }
-    if (props.isSubmitClicked && newValue === null) {
-      setError(true);
-      setErrorMessage("Required");
-      return;
-    }
-    if (!props.isZeroPossible && newValue === 0) {
-      setError(true);
-      setErrorMessage("Not possible 0");
-      return;
-    }
-    setError(false);
-    setErrorMessage("");
-  }, [
-    props.char,
-    props.answer,
-    props.isSubmitClicked,
-    props.isZeroPossible,
-    correctNumbers,
-  ]);
   return (
-    <Tooltip title={errorMessage}>
+    <Tooltip title={value.errorMessage}>
       <TextField
         className={classes.cell}
         type={"number"}
         variant={"outlined"}
         label={props.char}
-        value={value === null ? "" : value}
-        error={isError}
+        value={value.value === null ? "" : value.value}
         onChange={(event) => props.setNumber(props.char, event.target.value)}
+        error={
+          (value.value === null && props.isSubmitClicked) ||
+          (value.value !== null && !!value.errorMessage)
+        }
       />
     </Tooltip>
   );

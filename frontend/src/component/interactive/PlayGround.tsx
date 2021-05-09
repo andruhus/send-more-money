@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   task: QuestionTaskResponse;
-  answer: Map<string, number | null>;
+  answer: Map<string, { value: number | null; errorMessage: string }>;
   setNumber: (char: string, value: string) => void;
   isSubmitClicked: boolean;
 }
