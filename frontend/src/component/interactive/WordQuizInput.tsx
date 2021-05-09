@@ -6,7 +6,7 @@ import { EmptyCharacterQuizInput } from "./EmptyCharacterQuizInput";
 const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
 }));
 

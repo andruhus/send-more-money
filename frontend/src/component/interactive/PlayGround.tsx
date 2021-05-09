@@ -1,6 +1,13 @@
 import React, { ReactElement } from "react";
 import { QuestionTaskResponse } from "../../dto/response/QuestionTaskResponse";
 import { WordQuizInput } from "./WordQuizInput";
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles(() => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+  },
+}));
 
 interface Props {
   task: QuestionTaskResponse;
@@ -10,8 +17,9 @@ interface Props {
 }
 
 export const PlayGround = (props: Props): ReactElement => {
+  const classes = useStyles();
   return (
-    <>
+    <div className={classes.root}>
       <WordQuizInput
         word={props.task.addition1}
         maxCharacters={props.task.sum.length}
@@ -33,6 +41,6 @@ export const PlayGround = (props: Props): ReactElement => {
         setNumber={props.setNumber}
         isSubmitClicked={props.isSubmitClicked}
       />
-    </>
+    </div>
   );
 };

@@ -5,9 +5,20 @@ import { makeStyles } from "@material-ui/core/styles";
 import { NavBar } from "../component/NavBar";
 import { QuestionTaskResponse } from "../dto/response/QuestionTaskResponse";
 import { PlayGround } from "../component/interactive/PlayGround";
+import { Answer } from "../component/interactive/Answer";
 
 const useStyles = makeStyles(() => ({
-  root: {},
+  root: {
+    display: "flex",
+    maxWidth: "1000px",
+    margin: "auto",
+  },
+  playGround: {
+    flexGrow: 2,
+  },
+  answer: {
+    flexGrow: 1,
+  },
 }));
 
 export const InteractivePage = (): ReactElement => {
@@ -39,12 +50,22 @@ export const InteractivePage = (): ReactElement => {
       <NavBar />
       <div>ToDo get task by id: {questionId}</div>
       <div className={classes.root}>
-        <PlayGround
-          task={task}
-          answer={answer}
-          setNumber={setNumber}
-          isSubmitClicked={false}
-        />
+        <div className={classes.playGround}>
+          <PlayGround
+            task={task}
+            answer={answer}
+            setNumber={setNumber}
+            isSubmitClicked={true}
+          />
+        </div>
+        <div className={classes.answer}>
+          <Answer
+            task={task}
+            answer={answer}
+            setNumber={setNumber}
+            isSubmitClicked={true}
+          />
+        </div>
       </div>
     </>
   );
