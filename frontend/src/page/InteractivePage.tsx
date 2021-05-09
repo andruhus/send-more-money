@@ -22,7 +22,7 @@ export const InteractivePage = (): ReactElement => {
 
   const [answer, setAnswer] = useState(new Map<string, number | null>());
   useEffect(() => {
-    let data = (task.addition1 + task.addition2 + task.sum)
+    const data = (task.addition1 + task.addition2 + task.sum)
       .split("")
       .reduce((map, o) => map.set(o, null), new Map<string, number | null>());
     setAnswer(data);
@@ -43,14 +43,14 @@ export const InteractivePage = (): ReactElement => {
           maxCharacters={task.sum.length}
           answer={answer}
           setNumber={setNumber}
-          isSubmitClicked={true}
+          isSubmitClicked={false}
         />
         <WordQuizInput
           word={task.addition2}
           maxCharacters={task.sum.length}
           answer={answer}
           setNumber={setNumber}
-          isSubmitClicked={false}
+          isSubmitClicked={true}
         />
         <WordQuizInput
           word={task.sum}
