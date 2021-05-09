@@ -1,17 +1,24 @@
 import React, { ReactElement } from "react";
 import { Typography } from "@material-ui/core";
 import { CharacterQuizInput } from "./CharacterQuizInput";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { QuestionTaskResponse } from "../../dto/response/QuestionTaskResponse";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
   },
   answerItem: {
     display: "flex",
-    justifyContent: "center",
+
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "50px",
+      justifyContent: "flex-start",
+    },
+    [theme.breakpoints.up("sm")]: {
+      justifyContent: "center",
+    },
   },
   answerText: {
     marginTop: "auto",

@@ -1,17 +1,23 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NavBar } from "../component/NavBar";
 import { QuestionTaskResponse } from "../dto/response/QuestionTaskResponse";
 import { PlayGround } from "../component/interactive/PlayGround";
 import { Answer } from "../component/interactive/Answer";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     maxWidth: "1000px",
     margin: "auto",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
   },
   playGround: {
     flexGrow: 2,
