@@ -19,6 +19,7 @@ type Props = {
   char: string;
   setNumber: (key: string, value: string) => void;
   answer: Map<string, number | null>;
+  isSubmitClicked: boolean;
 };
 
 export const CharacterQuizInput = (props: Props) => {
@@ -36,12 +37,19 @@ export const CharacterQuizInput = (props: Props) => {
       setError(true);
       return;
     }
-    if (![...correctNumbers, null].includes(newValue)) {
-      setError(true);
-      return;
+    if (props.isSubmitClicked) {
+      if (![...correctNumbers].includes(newValue || -1)) {
+        setError(true);
+        return;
+      }
+    } else {
+      if (![...correctNumbers, null].includes(newValue)) {
+        setError(true);
+        return;
+      }
     }
     setError(false);
-  }, [props.answer]);
+  }, [props.answer, props.isSubmitClicked]);
   return (
     <TextField
       className={classes.cell}

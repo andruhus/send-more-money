@@ -43,18 +43,21 @@ export const InteractivePage = (): ReactElement => {
           maxCharacters={task.sum.length}
           answer={answer}
           setNumber={setNumber}
+          isSubmitClicked={true}
         />
         <WordQuizInput
           word={task.addition2}
           maxCharacters={task.sum.length}
           answer={answer}
           setNumber={setNumber}
+          isSubmitClicked={false}
         />
         <WordQuizInput
           word={task.sum}
           maxCharacters={task.sum.length}
           answer={answer}
           setNumber={setNumber}
+          isSubmitClicked={false}
         />
       </div>
     </>

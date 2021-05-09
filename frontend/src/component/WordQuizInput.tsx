@@ -15,6 +15,7 @@ type Props = {
   maxCharacters: number;
   answer: Map<string, number | null>;
   setNumber: (char: string, value: string) => void;
+  isSubmitClicked: boolean;
 };
 
 export const WordQuizInput = (props: Props) => {
@@ -32,6 +33,7 @@ export const WordQuizInput = (props: Props) => {
               answer={props.answer}
               char={it}
               setNumber={props.setNumber}
+              isSubmitClicked={props.isSubmitClicked}
             />
           ) : (
             <EmptyCharacterQuizInput />
