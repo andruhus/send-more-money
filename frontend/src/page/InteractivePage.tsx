@@ -14,13 +14,14 @@ export const InteractivePage = (): ReactElement => {
   const classes = useStyles();
   const { questionId } = useParams();
   // ToDo get task by `questionId`
+  // ToDo if `questionId` not exist - redirect to 404 page
   const task: QuestionTaskResponse = {
     addition1: "send",
     addition2: "more",
     sum: "money",
   };
-
   const [answer, setAnswer] = useState(new Map<string, number | null>());
+
   useEffect(() => {
     const data = (task.addition1 + task.addition2 + task.sum)
       .split("")
