@@ -6,6 +6,7 @@ import { NavBar } from "../component/NavBar";
 import { QuestionTaskResponse } from "../dto/response/QuestionTaskResponse";
 import { PlayGround } from "../component/interactive/PlayGround";
 import { Answer } from "../component/interactive/Answer";
+import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -54,7 +55,7 @@ export const InteractivePage = (): ReactElement => {
   return (
     <>
       <NavBar />
-      <div>ToDo get task by id: {questionId}</div>
+      <Typography>ToDo get task by id: {questionId}</Typography>
       <div className={classes.root}>
         <div className={classes.playGround}>
           <PlayGround
