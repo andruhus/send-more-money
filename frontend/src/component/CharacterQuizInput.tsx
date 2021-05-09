@@ -24,11 +24,14 @@ type Props = {
 
 export const CharacterQuizInput = (props: Props) => {
   const classes = useStyles();
+  const [value, setValue] = useState<number | null>(null);
   const [isError, setError] = useState(false);
   const correctNumbers = Array.from(new Array(10).keys());
 
   useEffect(() => {
-    const newValue = props.answer.get(props.char) || null;
+    const undefinedNewVal = props.answer.get(props.char);
+    const newValue = undefinedNewVal === undefined ? null : undefinedNewVal;
+    setValue(newValue);
     if (
       Array.from(props.answer.values())
         .filter((it) => it !== null)
@@ -38,7 +41,7 @@ export const CharacterQuizInput = (props: Props) => {
       return;
     }
     if (props.isSubmitClicked) {
-      if (![...correctNumbers].includes(newValue || -1)) {
+      if (![...correctNumbers].includes(newValue === null ? -1 : newValue)) {
         setError(true);
         return;
       }
@@ -49,14 +52,14 @@ export const CharacterQuizInput = (props: Props) => {
       }
     }
     setError(false);
-  }, [props.answer, props.isSubmitClicked]);
+  }, [props.char, props.answer, props.isSubmitClicked, correctNumbers]);
   return (
     <TextField
       className={classes.cell}
       type={"number"}
       variant={"outlined"}
       label={props.char}
-      value={props.answer.get(props.char) || ""}
+      value={value === null ? "" : value}
       error={isError}
       onChange={(event) => props.setNumber(props.char, event.target.value)}
     />

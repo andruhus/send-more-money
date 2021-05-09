@@ -23,22 +23,19 @@ export const WordQuizInput = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      {[
-        ...Array(props.maxCharacters - props.word.length).fill(""),
-        ...props.word.split(""),
-      ].map((it, index) => (
-        <div key={index}>
-          {it ? (
-            <CharacterQuizInput
-              answer={props.answer}
-              char={it}
-              setNumber={props.setNumber}
-              isSubmitClicked={props.isSubmitClicked}
-            />
-          ) : (
-            <EmptyCharacterQuizInput />
-          )}
-        </div>
+      {Array(props.maxCharacters - props.word.length)
+        .fill("")
+        .map((_, index) => (
+          <EmptyCharacterQuizInput key={index} />
+        ))}
+      {props.word.split("").map((it, index) => (
+        <CharacterQuizInput
+          key={index}
+          answer={props.answer}
+          char={it}
+          setNumber={props.setNumber}
+          isSubmitClicked={props.isSubmitClicked}
+        />
       ))}
     </div>
   );
