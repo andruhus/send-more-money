@@ -1,7 +1,12 @@
 import numpy as np
 import scipy.optimize as sco
 from letter_equations import get_free_row_index
+from scipy.linalg import lu
 
+
+def linear_independant_col(matrix):
+    U = lu(matrix)[2]
+    return [np.flatnonzero(U[i, :])[0] for i in range(U.shape[0])]
 
 def get_all_results(matrix, extra_column, len1, len2, len3):
     results = []
@@ -76,21 +81,25 @@ def analyze_solution(solution):
             return False
     return True
 
+def solve_complete_system(extended_matr):
+    extended_matr = sco._remove_redundancy._remove_redundancy(extended_matr, np.zeros_like(extended_matr[:, 0]))[0]
+    temp_list = np.array_split(extended_matr, extended_matr.shape[1] - 1, axis=1)
+    matrix, extra_column = temp_list[0], temp_list[1]
+    return np.linalg.solve(matrix, extra_column)
+
+def iterate_dependant_variables(dependant_col):
+    pass
+
+def find_linear_dep_col():
+    pass
 
 def solve_sys_lin_equations(matrix, extra_column):
     extended_matr = np.concatenate((matrix, extra_column), axis=1)
+    dep_col = find_linear_dep_col()
+    iterate_dependant_variables(dep_col)
 
-    extended_matr = sco._remove_redundancy._remove_redundancy(extended_matr, np.zeros_like(extended_matr[:, 0]))[0]
 
-    print(extended_matr)
 
-    temp_list = np.array_split(extended_matr, extended_matr.shape[1] - 1, axis=1)
-    matrix, extra_column = temp_list[0], temp_list[1]
-    if check_sys_lin_equation(matrix):
-        return np.linalg.solve(matrix, extra_column)
-    else:
-        # todo recursive func
-        pass
 
 
 def check_sys_lin_equation(matrix):

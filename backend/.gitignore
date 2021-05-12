@@ -1,2 +1,4 @@
 backend.iml
 configuration.ini
+__pycache__/
+backend/source/exper.py
