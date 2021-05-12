@@ -15,7 +15,7 @@ def get_all_results(matrix, extra_column, len1, len2, len3):
         temp_res = get_result_for_shift(shift, matrix, extra_column, len1, len2, len3)
 
         if not temp_res == None:
-            results.append(temp_res)
+            results.extend(temp_res)
     return results
 
 
@@ -29,13 +29,15 @@ def integer_to_binary_list(i, total):
 
 def get_result_for_shift(shift, matrix, extra_column, len1, len2, len3):
     shift_list = integer_to_binary_list(shift, len3 - 1)
-    adding_equation(shift_list, matrix, extra_column, len1, len2, len3)
-    solution = solve_sys_lin_equations(matrix, extra_column)
+    matrix_modified,extra_column_modified = adding_equation(shift_list, matrix, extra_column, len1, len2, len3)
+    solution = solve_sys_lin_equations(matrix_modified, extra_column_modified)
     if analyze_solution(solution):
         return solution
 
 
-def adding_equation(shift_list, matrix, extra_column, len1, len2, len3):
+def adding_equation(shift_list, matrix_inp, extra_column_inp, len1, len2, len3):
+    matrix = matrix_inp.copy()
+    extra_column = extra_column_inp.copy()
     for i in range(len3):
         list_of_indeces = get_indeces_list(i, len1, len2, len3)
         free_row = get_free_row_index(matrix)
@@ -48,6 +50,7 @@ def adding_equation(shift_list, matrix, extra_column, len1, len2, len3):
         else:
             matrix[free_row], extra_column[free_row] = create_row(shift_list[i - 1], shift_list[i], list_of_indeces,
                                                                   len1 + len2 + len3)
+        return matrix,extra_column
 
 
 def create_row(prev_shift, next_shift, list_of_indeces, total):
@@ -89,9 +92,13 @@ def solve_complete_system(extended_matr):
     matrix, extra_column = temp_list[0], temp_list[1]
     return np.linalg.solve(matrix, extra_column)
 
-
-def iterate_dependant_variables(dependant_col):
+def iterate_variable(depth,value_columns,dependant_col,matrix,extra_column):
     pass
+
+def iterate_dependant_variables(dependant_col,matrix,extra_column):
+    depth = matrix.shape[1] - len(dependant_col)
+    val_list = [0 for _ in range(len(dependant_col))]
+    results = iterate_variable(depth,val_list,dependant_col,matrix,extra_column)
 
 
 def find_linear_dep_col(matrix):
@@ -104,8 +111,8 @@ def find_linear_dep_col(matrix):
 
 def solve_sys_lin_equations(matrix, extra_column):
     extended_matr = np.concatenate((matrix, extra_column), axis=1)
-    dep_col = find_linear_dep_col(extended_matr)
-    iterate_dependant_variables(dep_col)
+    dep_col = find_linear_dep_col(matrix)
+    results = iterate_dependant_variables(dep_col,matrix,extra_column)
 
 
 def check_sys_lin_equation(matrix):
