@@ -6,7 +6,10 @@ from scipy.linalg import lu
 
 def linear_independant_col(matrix):
     U = lu(matrix)[2]
-    return [np.flatnonzero(U[i, :])[0] for i in range(U.shape[0])]
+    try:
+        return [np.flatnonzero(U[i, :])[0] for i in range(U.shape[0])]
+    except:
+        return [0]
 
 
 def get_all_results(matrix, extra_column, len1, len2, len3):
