@@ -1,6 +1,6 @@
 import numpy as np
-from letter_equations import set_equation_for_all_letter
-
+from backend.source.soluving.letter_equations import set_equation_for_all_letter
+from backend.source.soluving.finising_solving import get_all_results
 
 def check_combination(add1, add2, sum):
     return len(set(add1 + add2 + sum)) <= 10
@@ -28,6 +28,18 @@ def solve(add1, add2, sum):
         matrix, extra_column = empty_system_initiate(total_len)
         lett_dict = create_dict_of_letters(add1 + add2 + sum)
         set_equation_for_all_letter(matrix, lett_dict)
+    solution_array = get_all_results(matrix, extra_column, len(add1), len(add2), len(sum))
+    if len(solution_array) == 1:
+        result = represent_to_dict(add1, add2, sum, solution_array[0])
+
     return result
 
-# solve('send','more','money')
+
+def represent_to_dict(add1, add2, sum, solution_array):
+    concatenation = add1 + add2 + sum
+    dict = {}
+    for i in range(len(solution_array)):
+        dict[concatenation[i]] = solution_array[i]
+    return dict
+
+print(solve('send','more','money'))
