@@ -9,8 +9,8 @@ def check_combination(add1, add2, sum):
 
 
 def empty_system_initiate(total_len):
-    matrix = np.zeros((total_len ** 2, total_len))
-    extra_column = np.zeros(total_len ** 2)
+    matrix = np.zeros((total_len * 2, total_len))
+    extra_column = np.zeros(total_len * 2)
     return matrix, extra_column
 
 
