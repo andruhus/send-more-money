@@ -1,7 +1,7 @@
 import numpy as np
 from backend.source.soluving.letter_equations import set_equation_for_all_letter
 from backend.source.soluving.finising_solving import get_all_results
-
+import time
 def check_combination(add1, add2, sum):
     return len(set(add1 + add2 + sum)) <= 10
 
@@ -42,4 +42,10 @@ def represent_to_dict(add1, add2, sum, solution_array):
         dict[concatenation[i]] = solution_array[i]
     return dict
 
+
+start = time.perf_counter()
 print(solve('send','more','money'))
+finish = time.perf_counter()
+
+print(f'Worked for {finish - start} seconds')
+

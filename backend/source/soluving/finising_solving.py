@@ -34,7 +34,7 @@ def integer_to_binary_list(i, total):
 
 
 def get_result_for_shift(shift, matrix, extra_column, len1, len2, len3):
-    shift_list = integer_to_binary_list(shift, len3 - 1)
+    shift_list = integer_to_binary_list(shift, len3 - 1)[::-1]
     matrix_modified, extra_column_modified = adding_equation(shift_list, matrix, extra_column, len1, len2, len3)
     solution = solve_sys_lin_equations(matrix_modified, extra_column_modified)
     if analyze_solution(solution):
@@ -88,7 +88,7 @@ def analyze_solution(solution):
             return False
     except:
         return False
-    digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    digits = [0., 1., 2., 3., 4., 5., 6., 7., 8., 9.]
     for x in solution:
         if not int(x) in digits:
             return False
@@ -111,7 +111,8 @@ def iterate_variable(depth, value_columns, dependant_col, matrix_inp, extra_colu
             extra_column[get_free_row_index(matrix)] = value_columns[index]
             matrix[get_free_row_index(matrix)] = row
 
-        extended_matr = np.concatenate((matrix, extra_column), axis=1)
+
+        extended_matr = np.concatenate((matrix, extra_column.reshape((matrix.shape[0],1))), axis=1)
         try:
             res = solve_complete_system(extended_matr)
             if analyze_solution(res):
