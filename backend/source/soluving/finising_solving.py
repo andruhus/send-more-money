@@ -1,15 +1,18 @@
 import numpy as np
 import scipy.optimize as sco
-from backend.source.soluving.letter_equations import get_free_row_index,create_row_in_matrix
+from backend.source.soluving.letter_equations import get_free_row_index, create_row_in_matrix
 from scipy.linalg import lu
 
 
 def linear_independant_col(matrix):
     U = lu(matrix)[2]
-    try:
-        return [np.flatnonzero(U[i, :])[0] for i in range(U.shape[0])]
-    except:
-        return [0]
+    result = []
+    for i in range(U.shape[0]):
+        try:
+            result.append(np.flatnonzero(U[i, :])[0])
+        except:
+            pass
+    return result
 
 
 def get_all_results(matrix, extra_column, len1, len2, len3):
@@ -53,7 +56,7 @@ def adding_equation(shift_list, matrix_inp, extra_column_inp, len1, len2, len3):
         else:
             matrix[free_row], extra_column[free_row] = create_row(shift_list[i - 1], shift_list[i], list_of_indeces,
                                                                   len1 + len2 + len3)
-        return matrix, extra_column
+    return matrix, extra_column
 
 
 def create_row(prev_shift, next_shift, list_of_indeces, total):
@@ -80,11 +83,14 @@ def get_indeces_list(i, len1, len2, len3):
 
 
 def analyze_solution(solution):
-    if solution == None:
+    try:
+        if solution.shape[0] == 0:
+            return False
+    except:
         return False
     digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     for x in solution:
-        if not x in digits:
+        if not int(x) in digits:
             return False
     return True
 
@@ -96,40 +102,41 @@ def solve_complete_system(extended_matr):
     return np.linalg.solve(matrix, extra_column)
 
 
-
-def iterate_variable(depth, value_columns, dependant_col, matrix_inp, extra_column_inp,results):
+def iterate_variable(depth, value_columns, dependant_col, matrix_inp, extra_column_inp, results):
     if depth == 0:
         matrix = matrix_inp.copy()
         extra_column = extra_column_inp.copy()
         for index in range(len(dependant_col)):
-            row = create_row_in_matrix([dependant_col[index]],matrix.shape[1])
-            extra_column.append(value_columns[index])
-            matrix.append(row)
+            row = create_row_in_matrix([dependant_col[index]], matrix.shape[1])
+            extra_column[get_free_row_index(matrix)] = value_columns[index]
+            matrix[get_free_row_index(matrix)] = row
+
         extended_matr = np.concatenate((matrix, extra_column), axis=1)
-        res = solve_complete_system(extended_matr)
-        if analyze_solution(res):
-            results.append(res)
+        try:
+            res = solve_complete_system(extended_matr)
+            if analyze_solution(res):
+                results.append(res)
+        except:
+            pass
     else:
         index_value_columns = len(dependant_col) - depth
         for digit in range(10):
+            if digit in value_columns[:index_value_columns]:
+                continue
             value_columns[index_value_columns] = digit
-            iterate_variable(depth-1,value_columns,dependant_col,matrix_inp,extra_column_inp,results)
-
-
-
-
+            iterate_variable(depth - 1, value_columns, dependant_col, matrix_inp, extra_column_inp, results)
 
 
 def iterate_dependant_variables(dependant_col, matrix, extra_column):
     depth = len(dependant_col)
     val_list = [0 for _ in range(len(dependant_col))]
     results = []
-    iterate_variable(depth, val_list, dependant_col, matrix, extra_column,results)
+    iterate_variable(depth, val_list, dependant_col, matrix, extra_column, results)
     return results
 
 
 def find_linear_dep_col(matrix):
-    result = range(matrix.shape[1])
+    result = list(range(matrix.shape[1]))
     independant_col = linear_independant_col(matrix)
     for variable in independant_col:
         result.remove(variable)
@@ -137,9 +144,9 @@ def find_linear_dep_col(matrix):
 
 
 def solve_sys_lin_equations(matrix, extra_column):
-
     dep_col = find_linear_dep_col(matrix)
     results = iterate_dependant_variables(dep_col, matrix, extra_column)
+    return results
 
 
 def check_sys_lin_equation(matrix):
