@@ -2,6 +2,8 @@ import numpy as np
 from backend.source.soluving.letter_equations import set_equation_for_all_letter
 from backend.source.soluving.finising_solving import get_all_results
 import time
+
+
 def check_combination(add1, add2, sum):
     return len(set(add1 + add2 + sum)) <= 10
 
@@ -20,6 +22,7 @@ def create_dict_of_letters(str):
         res[str[letter_ind]].append(letter_ind)
     return res
 
+
 def are_letter_different(result):
     used_values = []
     for key in result.keys():
@@ -27,6 +30,7 @@ def are_letter_different(result):
             return False
         used_values.append(result[key])
     return True
+
 
 def solve(add1, add2, sum):
     result = []
@@ -39,9 +43,18 @@ def solve(add1, add2, sum):
     if len(solution_array) != 0:
         for result_candidate_num in solution_array:
             result_candidate = represent_to_dict(add1, add2, sum, result_candidate_num)
-
+            if are_letter_different(result_candidate) and check_first_letter_non_zero(add1, add2, sum,
+                                                                                      result_candidate):
+                result.append(result_candidate)
 
     return result
+
+
+def check_first_letter_non_zero(add1, add2, sum, result):
+    first = result[add1[0]] != 0
+    second = result[add2[0]] != 0
+    third = result[sum[0]] != 0
+    return first and second and third
 
 
 def represent_to_dict(add1, add2, sum, solution_array):
@@ -53,8 +66,8 @@ def represent_to_dict(add1, add2, sum, solution_array):
 
 
 start = time.perf_counter()
-print(solve('send','more','money'))
+for element in solve('send', 'more', 'money'):
+    print(element)
 finish = time.perf_counter()
 
 print(f'Worked for {finish - start} seconds')
-

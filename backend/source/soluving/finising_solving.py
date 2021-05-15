@@ -36,6 +36,7 @@ def integer_to_binary_list(i, total):
 def get_result_for_shift(shift, matrix, extra_column, len1, len2, len3):
     shift_list = integer_to_binary_list(shift, len3 - 1)[::-1]
     matrix_modified, extra_column_modified = adding_equation(shift_list, matrix, extra_column, len1, len2, len3)
+
     solution = solve_sys_lin_equations(matrix_modified, extra_column_modified)
     return solution
 
@@ -97,7 +98,7 @@ def analyze_solution(solution):
 def solve_complete_system(extended_matr):
     extended_matr = lu(extended_matr)[2]
     extended_matr = extended_matr[:get_free_row_index(extended_matr)]
-    matrix, extra_column = extended_matr[:,:extended_matr.shape[1] - 1], extended_matr[:,extended_matr.shape[1]-1]
+    matrix, extra_column = extended_matr[:, :extended_matr.shape[1] - 1], extended_matr[:, extended_matr.shape[1] - 1]
     extra_column = extra_column.reshape((extra_column.shape[0]))
     try:
         return np.linalg.solve(matrix, extra_column)
@@ -114,8 +115,7 @@ def iterate_variable(depth, value_columns, dependant_col, matrix_inp, extra_colu
             extra_column[get_free_row_index(matrix)] = value_columns[index]
             matrix[get_free_row_index(matrix)] = row
 
-
-        extended_matr = np.concatenate((matrix, extra_column.reshape((matrix.shape[0],1))), axis=1)
+        extended_matr = np.concatenate((matrix, extra_column.reshape((matrix.shape[0], 1))), axis=1)
 
         res = solve_complete_system(extended_matr)
         if analyze_solution(res):
