@@ -20,17 +20,26 @@ def create_dict_of_letters(str):
         res[str[letter_ind]].append(letter_ind)
     return res
 
+def are_letter_different(result):
+    used_values = []
+    for key in result.keys():
+        if result[key] in used_values:
+            return False
+        used_values.append(result[key])
+    return True
 
 def solve(add1, add2, sum):
-    result = {}
+    result = []
     if check_combination(add1, add2, sum):
         total_len = len(add1) + len(add2) + len(sum)
         matrix, extra_column = empty_system_initiate(total_len)
         lett_dict = create_dict_of_letters(add1 + add2 + sum)
         set_equation_for_all_letter(matrix, lett_dict)
     solution_array = get_all_results(matrix, extra_column, len(add1), len(add2), len(sum))
-    if len(solution_array) == 1:
-        result = represent_to_dict(add1, add2, sum, solution_array[0])
+    if len(solution_array) != 0:
+        for result_candidate_num in solution_array:
+            result_candidate = represent_to_dict(add1, add2, sum, result_candidate_num)
+
 
     return result
 
