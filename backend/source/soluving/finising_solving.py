@@ -37,8 +37,7 @@ def get_result_for_shift(shift, matrix, extra_column, len1, len2, len3):
     shift_list = integer_to_binary_list(shift, len3 - 1)[::-1]
     matrix_modified, extra_column_modified = adding_equation(shift_list, matrix, extra_column, len1, len2, len3)
     solution = solve_sys_lin_equations(matrix_modified, extra_column_modified)
-    if analyze_solution(solution):
-        return solution
+    return solution
 
 
 def adding_equation(shift_list, matrix_inp, extra_column_inp, len1, len2, len3):
@@ -96,10 +95,14 @@ def analyze_solution(solution):
 
 
 def solve_complete_system(extended_matr):
-    extended_matr = sco._remove_redundancy._remove_redundancy(extended_matr, np.zeros_like(extended_matr[:, 0]))[0]
-    temp_list = np.array_split(extended_matr, extended_matr.shape[1] - 1, axis=1)
-    matrix, extra_column = temp_list[0], temp_list[1]
-    return np.linalg.solve(matrix, extra_column)
+    extended_matr = lu(extended_matr)[2]
+    extended_matr = extended_matr[:get_free_row_index(extended_matr)]
+    matrix, extra_column = extended_matr[:,:extended_matr.shape[1] - 1], extended_matr[:,extended_matr.shape[1]-1]
+    extra_column = extra_column.reshape((extra_column.shape[0]))
+    try:
+        return np.linalg.solve(matrix, extra_column)
+    except:
+        return None
 
 
 def iterate_variable(depth, value_columns, dependant_col, matrix_inp, extra_column_inp, results):
@@ -113,12 +116,11 @@ def iterate_variable(depth, value_columns, dependant_col, matrix_inp, extra_colu
 
 
         extended_matr = np.concatenate((matrix, extra_column.reshape((matrix.shape[0],1))), axis=1)
-        try:
-            res = solve_complete_system(extended_matr)
-            if analyze_solution(res):
-                results.append(res)
-        except:
-            pass
+
+        res = solve_complete_system(extended_matr)
+        if analyze_solution(res):
+            results.append(res)
+
     else:
         index_value_columns = len(dependant_col) - depth
         for digit in range(10):
