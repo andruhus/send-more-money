@@ -63,11 +63,3 @@ def represent_to_dict(add1, add2, sum, solution_array):
     for i in range(len(solution_array)):
         dict[concatenation[i]] = solution_array[i]
     return dict
-
-
-start = time.perf_counter()
-for element in solve('send', 'more', 'money'):
-    print(element)
-finish = time.perf_counter()
-
-print(f'Worked for {finish - start} seconds')

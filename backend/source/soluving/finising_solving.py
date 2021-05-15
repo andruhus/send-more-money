@@ -90,7 +90,7 @@ def analyze_solution(solution):
         return False
     digits = [0., 1., 2., 3., 4., 5., 6., 7., 8., 9.]
     for x in solution:
-        if not int(x) in digits:
+        if not x in digits:
             return False
     return True
 
@@ -142,7 +142,10 @@ def find_linear_dep_col(matrix):
     result = list(range(matrix.shape[1]))
     independant_col = linear_independant_col(matrix)
     for variable in independant_col:
-        result.remove(variable)
+        try:
+            result.remove(variable)
+        except:
+            pass
     return result
 
 
