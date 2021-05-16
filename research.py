@@ -4,7 +4,7 @@ from backend.source.soluving.word_filtration.group_by_length import analise_word
 from backend.source.util.file_util import read_file, overwrite_file
 from backend.source.util.json_util import read_json_format, to_json_format
 
-analise_words()
+
 
 # This is groups to devide evaluating time
 
