@@ -28,10 +28,10 @@ def group_solutions(solutions, add1, add2, sum):
     if len(solutions) == 1:
         try:
             with open(filename_beautiful, 'a') as file:
-                file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions) + '\n')
+                file.writelines(add1 + ';' + add2 + ';' + sum + ';' + str(solutions[0]) + '\n')
         except:
             with open(filename_beautiful, 'w') as file:
-                file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions) + '\n')
+                file.writelines(add1 + ' ;' + add2 + ';' + sum + ';' + str(solutions[0]) + '\n')
 
 
 def func_for_prosess(core, add1, add2, sum_set):
