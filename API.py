@@ -39,24 +39,25 @@ def post(self, task_id):
             return 400
 
 
-class ListView(Resource):
-
-
-    def post(self,task_id):
-        if task_id < session.query(BeautifulSolution).count():
-            session.query(BeautifulSolution).filter_by(id=task_id).first().update(
+@app.route('/try-questions/<int:task_id>',methods = ['POST'])
+def post(self, task_id):
+    if task_id < session.query(BeautifulSolution).count():
+        session.query(BeautifulSolution).filter_by(id=task_id).first().update(
             {BeautifulSolution.triedCount: BeautifulSolution.triedCount + 1})
-        else:
-            session.query(NotbadSolution).filter_by(id=task_id).first().update(
-                {NotbadSolution.triedCount: NotbadSolution.triedCount + 1})
+    else:
+        session.query(NotbadSolution).filter_by(id=task_id).first().update(
+            {NotbadSolution.triedCount: NotbadSolution.triedCount + 1})
 
 
-class InterActive(Resource):
+
+
+
+
+
 
 
 # todo for Ihor: you should manage links in paths
 
-api.add_resource(ListView, '/questions-info/')
-api.add_resource(InterActive, '/solution-questions/<int:id>,')
+
 
 app.run()
