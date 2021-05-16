@@ -41,7 +41,7 @@ def func_for_prosess(core, add1, add2, sum_set):
     for sum_ind in range(core, len(sum_set), 4):
         if check_combination(add1, add2, sum_set[sum_ind]):
             solution = solve(add1, add2, sum_set[sum_ind])
-            group_solutions(solution,add1,add2)
+            group_solutions(solution,add1,add2,sum_set[sum_ind])
 
 
 def iterate(start, end, core_num):
