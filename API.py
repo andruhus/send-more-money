@@ -20,7 +20,7 @@ def check_user_result(task_id):
     for index in range(len(letters)):
         user_result[letters[index]] = numbers[index]
     obj = session.query(BeautifulSolution).filter_by(id=task_id).first()
-    if obj.solution1 == user_result:
+    if obj.solution == user_result:
         session.query(BeautifulSolution).filter_by(id=task_id).first().update(
             {BeautifulSolution.solvedCount: BeautifulSolution.solvedCount + 1})
         return 200

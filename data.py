@@ -16,7 +16,8 @@ class BeautifulSolution(Base):
     add1 = Column(String)
     add2 = Column(String)
     sum = Column(String)
-    solution1 = Column(PickleType)
+    solution = Column(PickleType)
     likeCount = Column(Integer)
     triedCount = Column(Integer)
     solvedCount = Column(Integer)
+
