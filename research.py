@@ -54,7 +54,7 @@ def func_for_prosess(core, add1, add2, sum_set):
 
 def iterate(start, end, core_num):
     for len1 in range(start, end):
-        for len2 in range(len1, 11):
+        for len2 in range(len1, 21):
             file_data = read_file('backend/source/soluving/words/%s_length_words.json' % len1)
             json_data = read_json_format(file_data)
             add1_set = json_data['words']
