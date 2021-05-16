@@ -27,8 +27,8 @@ def group_solutions(solutions, add1, add2, sum):
     # 'trash' if the solutions is empty or has too many solutions we won`t deal with it
     if len(solutions) not in range(1, 6):
         return None
-    filename_notbad = 'backend/source/soluving/word/notbad.txt'
-    filename_beautiful = 'backend/source/soluving/word/beautiful.txt'
+    filename_notbad = 'backend/source/soluving/words/notbad.txt'
+    filename_beautiful = 'backend/source/soluving/words/beautiful.txt'
     try:
         with open(filename_notbad, 'a') as file:
             file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions))
