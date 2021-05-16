@@ -29,12 +29,20 @@ def group_solutions(solutions, add1, add2, sum):
         return None
     filename_notbad = 'backend/source/soluving/word/notbad.txt'
     filename_beautiful = 'backend/source/soluving/word/beautiful.txt'
-    with open(filename_notbad, 'a') as file:
-        file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions))
+    try:
+        with open(filename_notbad, 'a') as file:
+            file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions))
+    except:
+        with open(filename_notbad, 'w') as file:
+            file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions))
 
     if len(solutions) == 1:
-        with open(filename_beautiful, 'a') as file:
-            file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions))
+        try:
+            with open(filename_beautiful, 'a') as file:
+                file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions))
+        except:
+            with open(filename_beautiful, 'w') as file:
+                file.writelines(add1 + ' + ' + add2 + ' = ' + sum + '; ' + str(solutions))
 
 
 def func_for_prosess(core, add1, add2, sum_set):
