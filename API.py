@@ -18,6 +18,14 @@ class ListView(Resource):
         beautiful.extend(notbad)
         return beautiful
 
+    def post(self,task_id):
+        if task_id < session.query(BeautifulSolution).count():
+            session.query(BeautifulSolution).filter_by(id=task_id).first().update(
+            {BeautifulSolution.triedCount: BeautifulSolution.triedCount + 1})
+        else:
+            session.query(NotbadSolution).filter_by(id=task_id).first().update(
+                {NotbadSolution.triedCount: NotbadSolution.triedCount + 1})
+
 
 class InterActive(Resource):
     def post(self,task_id,user_result):
@@ -28,11 +36,18 @@ class InterActive(Resource):
                 return 200
             else:
                 return 400
-
+        else:
+            obj = session.query(BeautifulSolution).filter_by(id=task_id).first()
+            if obj.solution1 == user_result:
+                session.query(BeautifulSolution).filter_by(id=task_id).first().update(
+                    {BeautifulSolution.solvedCount: BeautifulSolution.solvedCount + 1})
+                return 200
+            else:
+                return 400
 
 # todo for Ihor: you should manage links in paths
 api.add_resource(Home, '/')
 api.add_resource(ListView, '/questions-info/')
-api.add_resource(InterActive, '/solution-questions/<int:id>')
+api.add_resource(InterActive, '/solution-questions/<int:id>,')
 
 app.run()
