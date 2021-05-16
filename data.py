@@ -20,6 +20,3 @@ class BeautifulSolution(Base):
     likeCount = Column(Integer)
     triedCount = Column(Integer)
     solvedCount = Column(Integer)
-
-
-
