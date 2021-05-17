@@ -7,10 +7,13 @@ def get_free_row_index(matrix):
             return i
 
 
-def create_row_in_matrix(list_of_indexes, total_len):
+def create_row_in_matrix(list_of_indeces, total_len):
     row = np.zeros(total_len)
-    for index in list_of_indexes:
-        row[index] = 1
+    for index in range(len(list_of_indeces)):
+        if index % 2 == 0:
+            row[list_of_indeces[index]] = 1
+        else:
+            row[list_of_indeces[index]] = -1
     return row
 
 

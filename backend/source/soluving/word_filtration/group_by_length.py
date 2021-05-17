@@ -1,7 +1,7 @@
 from lazy_streams import stream
 
-from source.util.file_util import read_file, overwrite_file
-from source.util.json_util import read_json_format, to_json_format
+from backend.source.util.file_util import read_file, overwrite_file
+from backend.source.util.json_util import read_json_format, to_json_format
 
 
 def group_by_length(words: [str]) -> [[str]]:
