@@ -30,4 +30,4 @@ def analise_words():
                        }))
 
 
-analise_words()
+
