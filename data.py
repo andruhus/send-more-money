@@ -42,21 +42,20 @@ class BeautifulSolution(Base):
         }
 
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
+#
+# with open('backend/source/soluving/words/beautiful.txt', 'r') as f:
+#     while True:
+#         try:
+#             s = f.readline()
+#             add1, add2, sum, solution = s.split(';')
+#             solution = eval(solution)
+#             for key in solution.keys():
+#                 solution[key] = int(solution[key])
+#             # solution = PickleType(solution)
+#             session.add(BeautifulSolution(add1, add2, sum, solution, 0, 0, 0))
+#         except:
+#             break
+#
 
-with open('backend/source/soluving/words/beautiful.txt', 'r') as f:
-    while True:
-        try:
-            s = f.readline()
-            add1, add2, sum, solution = s.split(';')
-            solution = eval(solution)
-            for key in solution.keys():
-                solution[key] = int(solution[key])
-            # solution = PickleType(solution)
-            session.add(BeautifulSolution(add1, add2, sum, solution, 0, 0, 0))
-        except:
-            break
-
-# a = session.query(BeautifulSolution).first().solution
-# print(a)
-session.commit()
+# session.commit()
