@@ -13,7 +13,14 @@ def get_all_tasks():
     beautiful = session.query(BeautifulSolution).all()
     res = []
     for item in beautiful:
-        res.append(item.to_dict())
+        temp = {}
+        created = item.to_dict()
+        for key in created.keys():
+            if key == 'solution':
+                continue
+            else:
+                temp[key] = created[key]
+        res.append(temp)
     return jsonify(res)
 
 
@@ -64,8 +71,13 @@ def get_task_name(task_id):
     if task_id > session.query(BeautifulSolution).count():
         return Response(status=404)
     obj = session.query(BeautifulSolution).filter_by(id=task_id).first()
-    print(obj)
-    result = {'addition1': obj.add1, 'addition2': obj.add2, 'sum': obj.sum}
+    result = {}
+    created = obj.to_dict()
+    for key in created.keys():
+        if key == 'solution':
+            continue
+        else:
+            result[key] = created[key]
     return jsonify(result)
 
 

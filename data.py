@@ -32,6 +32,7 @@ class BeautifulSolution(Base):
 
     def to_dict(self):
         return {
+            'id': self.id,
             'add1': self.add1,
             'add2': self.add2,
             'sum': self.sum,
