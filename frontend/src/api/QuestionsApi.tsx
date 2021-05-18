@@ -10,3 +10,5 @@ export const useGetAllQuestionInfoById = (questionId: any) =>
   useGet<QuestionResponse>(`${host}/questions-info/${questionId}`);
 
 export const usePostLike = () => usePost<any, any>(`${host}/like-questions`);
+export const usePostTryQuestion = () =>
+  usePost<any, any>(`${host}/try-questions`);

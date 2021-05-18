@@ -6,7 +6,11 @@ import { NavBar } from "../component/NavBar";
 import { PlayGround } from "../component/interactive/PlayGround";
 import { Answer } from "../component/interactive/Answer";
 import { Button, Typography } from "@material-ui/core";
-import { useGetAllQuestionInfoById, usePostLike } from "../api/QuestionsApi";
+import {
+  useGetAllQuestionInfoById,
+  usePostLike,
+  usePostTryQuestion,
+} from "../api/QuestionsApi";
 import {
   Language,
   DoneOutline,
@@ -60,6 +64,7 @@ export const InteractivePage = (): ReactElement => {
   const [submitClicked, setSubmitClicked] = useState(false);
   const [isLiked, setLiked] = useState(false);
   const [setLikeId, postLike, isLikeLoad] = usePostLike();
+  const [setTryId, postTry, isTryLoad] = usePostTryQuestion();
 
   useEffect(() => {
     if (!task) return;
@@ -73,13 +78,19 @@ export const InteractivePage = (): ReactElement => {
   }, [task]);
 
   useEffect(() => {
-    console.log(1);
+    setTryId(questionId);
+    postTry({});
   }, []);
 
   useEffect(() => {
     if (isLikeLoad !== false) return;
     loadTask();
   }, [isLikeLoad]);
+
+  useEffect(() => {
+    if (isTryLoad !== false) return;
+    loadTask();
+  }, [isTryLoad]);
 
   const getErrorMessage = (char: string, newAnswer: AnswerMap) => {
     let value: number | null = newAnswer.get(char)!.value;
