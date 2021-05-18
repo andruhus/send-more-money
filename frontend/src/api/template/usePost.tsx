@@ -4,12 +4,7 @@ import { ErrorResponse } from "./ErrorResponse";
 
 export const usePost = <POST_TYPE, RESPONSE_TYPE>(
   urlParam: string
-): [
-  (data: POST_TYPE, url?: string) => void,
-  RESPONSE_TYPE | undefined,
-  boolean | undefined,
-  ErrorResponse | undefined
-] => {
+): [(id: number) => void, (data: POST_TYPE) => void, boolean | undefined] => {
   const [url, setUrl] = useState<string>(urlParam);
   const [postingData, setPostingData] = useState<POST_TYPE>();
   const [responseData, setResponseData] = useState<RESPONSE_TYPE>();
@@ -32,12 +27,12 @@ export const usePost = <POST_TYPE, RESPONSE_TYPE>(
   }, [url, postingData]);
 
   return [
-    (data: POST_TYPE, url?: string) => {
-      url && setUrl(url);
+    (id: number) => {
+      setUrl(`${url}/${id}`);
+    },
+    (data: POST_TYPE) => {
       setPostingData(data);
     },
-    responseData,
     isLoading,
-    error,
   ];
 };

@@ -6,7 +6,13 @@ import { NavBar } from "../component/NavBar";
 import { PlayGround } from "../component/interactive/PlayGround";
 import { Answer } from "../component/interactive/Answer";
 import { Button, Typography } from "@material-ui/core";
-import { useGetAllQuestionInfoById } from "../api/QuestionsApi";
+import { useGetAllQuestionInfoById, usePostLike } from "../api/QuestionsApi";
+import {
+  Language,
+  DoneOutline,
+  FavoriteBorder,
+  Favorite,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -20,9 +26,20 @@ const useStyles = makeStyles((theme: Theme) => ({
       flexDirection: "row",
     },
   },
+  info: {
+    display: "flex",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+    },
+    [theme.breakpoints.up("sm")]: {
+      flexDirection: "row",
+    },
+  },
   title: {
     ...theme.typography.h5,
     margin: "25px",
+    display: "flex",
+    alignItems: "center",
   },
   playGround: {
     flexGrow: 2,
@@ -38,9 +55,11 @@ type AnswerMap = Map<string, AnswerData>;
 export const InteractivePage = (): ReactElement => {
   const classes = useStyles();
   const { questionId } = useParams();
-  const [, task] = useGetAllQuestionInfoById(questionId);
+  const [loadTask, task] = useGetAllQuestionInfoById(questionId);
   const [answer, setAnswer] = useState<AnswerMap>();
   const [submitClicked, setSubmitClicked] = useState(false);
+  const [isLiked, setLiked] = useState(false);
+  const [setLikeId, postLike, isLikeLoad] = usePostLike();
 
   useEffect(() => {
     if (!task) return;
@@ -52,6 +71,15 @@ export const InteractivePage = (): ReactElement => {
       );
     setAnswer(data);
   }, [task]);
+
+  useEffect(() => {
+    console.log(1);
+  }, []);
+
+  useEffect(() => {
+    if (isLikeLoad !== false) return;
+    loadTask();
+  }, [isLikeLoad]);
 
   const getErrorMessage = (char: string, newAnswer: AnswerMap) => {
     let value: number | null = newAnswer.get(char)!.value;
@@ -88,6 +116,13 @@ export const InteractivePage = (): ReactElement => {
     setAnswer(new Map(answer));
   };
 
+  const handleLiked = () => {
+    if (!task) return;
+    setLiked(true);
+    setLikeId(task.id);
+    postLike({});
+  };
+
   if (!answer)
     return (
       <>
@@ -102,7 +137,48 @@ export const InteractivePage = (): ReactElement => {
       {task ? (
         <>
           <Typography className={classes.title}>
-            {`${task.add1} + ${task.add2} = ${task.sum}`.toUpperCase()}
+            <div>
+              {`${task.add1} + ${task.add2} = ${task.sum}`.toUpperCase()}
+            </div>
+            <div className={classes.info}>
+              <div
+                style={{
+                  marginLeft: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Language style={{ color: "blue" }} />
+                <div>{task.triedCount}</div>
+              </div>
+              <div
+                style={{
+                  marginLeft: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <DoneOutline style={{ color: "green" }} />
+                <div>{task.solvedCount}</div>
+              </div>
+              <div
+                style={{
+                  marginLeft: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {isLiked ? (
+                  <Favorite style={{ color: "red" }} />
+                ) : (
+                  <FavoriteBorder
+                    onClick={handleLiked}
+                    style={{ color: "red" }}
+                  />
+                )}
+                <div>{task.likeCount}</div>
+              </div>
+            </div>
           </Typography>
           <div className={classes.root}>
             <div className={classes.playGround}>
