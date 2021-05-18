@@ -1,22 +1,34 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NavBar } from "../component/NavBar";
 import { PlayGround } from "../component/interactive/PlayGround";
 import { Answer } from "../component/interactive/Answer";
-import { Button, Typography } from "@material-ui/core";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Snackbar,
+  Typography,
+} from "@material-ui/core";
 import {
   useGetAllQuestionInfoById,
   usePostLike,
   usePostTryQuestion,
+  usePostTrySolve,
 } from "../api/QuestionsApi";
 import {
-  Language,
   DoneOutline,
-  FavoriteBorder,
   Favorite,
+  FavoriteBorder,
+  Language,
 } from "@material-ui/icons";
+import { puzzleListRouting } from "../constant/routes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -58,6 +70,7 @@ type AnswerMap = Map<string, AnswerData>;
 
 export const InteractivePage = (): ReactElement => {
   const classes = useStyles();
+  const history = useHistory();
   const { questionId } = useParams();
   const [loadTask, task] = useGetAllQuestionInfoById(questionId);
   const [answer, setAnswer] = useState<AnswerMap>();
@@ -65,6 +78,11 @@ export const InteractivePage = (): ReactElement => {
   const [isLiked, setLiked] = useState(false);
   const [setLikeId, postLike, isLikeLoad] = usePostLike();
   const [setTryId, postTry, isTryLoad] = usePostTryQuestion();
+  const [, postSolve, isSolveLoad, isErrorInSolve] = usePostTrySolve(
+    questionId
+  );
+  const [isOpenError, setOpenError] = useState(false);
+  const [isOpenCongrat, setOpenCongrat] = useState(false);
 
   useEffect(() => {
     if (!task) return;
@@ -91,6 +109,15 @@ export const InteractivePage = (): ReactElement => {
     if (isTryLoad !== false) return;
     loadTask();
   }, [isTryLoad]);
+
+  useEffect(() => {
+    if (isErrorInSolve.isLoading !== false) return;
+    if (isErrorInSolve.error === undefined) {
+      setOpenCongrat(true);
+    } else {
+      setOpenError(true);
+    }
+  }, [isSolveLoad, isErrorInSolve]);
 
   const getErrorMessage = (char: string, newAnswer: AnswerMap) => {
     let value: number | null = newAnswer.get(char)!.value;
@@ -141,6 +168,21 @@ export const InteractivePage = (): ReactElement => {
         <Typography variant={"h4"}>Loading...</Typography>
       </>
     );
+
+  const onSubmit = () => {
+    setSubmitClicked(true);
+    if (
+      Array.from(answer.keys()).filter((it) => {
+        return answer.get(it)?.errorMessage !== "";
+      }).length === 0
+    ) {
+      const request = Array.from(answer.keys()).map((key) => ({
+        char: key,
+        value: answer.get(key)!.value!,
+      }));
+      postSolve({ data: request });
+    }
+  };
 
   return (
     <>
@@ -209,7 +251,49 @@ export const InteractivePage = (): ReactElement => {
               />
             </div>
           </div>
-          <Button onClick={() => setSubmitClicked(true)}>Submit</Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={onSubmit}
+            disabled={isSolveLoad}
+          >
+            Submit
+          </Button>
+          <Dialog open={isOpenError} onClose={() => setOpenError(false)}>
+            <DialogTitle>Mistake</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                You have some mistake in your solution
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={() => setOpenError(false)}
+                color="primary"
+                autoFocus
+              >
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Snackbar
+            open={isOpenCongrat}
+            autoHideDuration={2000}
+            onClose={() => {
+              setOpenCongrat(false);
+              history.goBack();
+            }}
+          >
+            <Alert
+              onClose={() => {
+                setOpenCongrat(false);
+                history.goBack();
+              }}
+              severity="success"
+            >
+              This is a success message!
+            </Alert>
+          </Snackbar>
         </>
       ) : (
         <>Loading...</>
@@ -217,3 +301,6 @@ export const InteractivePage = (): ReactElement => {
     </>
   );
 };
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={2} variant="filled" {...props} />;
+}
