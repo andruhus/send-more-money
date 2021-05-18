@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { Typography } from "@material-ui/core";
 import { CharacterQuizInput } from "./CharacterQuizInput";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { QuestionTaskResponse } from "../../dto/response/QuestionTaskResponse";
+import { QuestionResponse } from "../../dto/response/QuestionResponse";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 type Props = {
-  task: QuestionTaskResponse;
+  task: QuestionResponse;
   answer: Map<string, { value: number | null; errorMessage: string }>;
   setNumber: (char: string, value: string) => void;
   isSubmitClicked: boolean;

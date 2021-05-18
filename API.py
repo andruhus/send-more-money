@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, Response
+from flask_cors import CORS
 
 from data import *
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
+CORS(app)
 
 
 @app.route('/questions-info', methods=['GET'])

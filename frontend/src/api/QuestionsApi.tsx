@@ -4,3 +4,6 @@ import { QuestionResponse } from "../dto/response/QuestionResponse";
 
 export const useGetAllQuestionInfos = () =>
   useGet<QuestionResponse[]>(`${host}/questions-info`);
+
+export const useGetAllQuestionInfoById = (questionId: any) =>
+  useGet<QuestionResponse>(`${host}/questions-info/${questionId}`);

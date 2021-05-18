@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import MaterialTable, { Column } from "material-table";
 import { tableIcons } from "../util/table-util";
 import { QuestionResponse } from "../dto/response/QuestionResponse";
+import { useGetAllQuestionInfos } from "../api/QuestionsApi";
 
 const useStyles = makeStyles((theme: Theme) => ({
   table: {
@@ -20,7 +21,7 @@ export const PuzzleListPage = (): ReactElement => {
   const classes = useStyles();
 
   const columns: Column<QuestionResponse>[] = [
-    { title: "Name", render: (x) => x.name },
+    { title: "Name", render: (x) => `${x.add1} + ${x.add2} = ${x.sum}` },
     { title: "Tried", render: (x) => x.triedCount },
     { title: "Solved", render: (x) => x.solvedCount },
     { title: "Likes", render: (x) => x.likeCount },
@@ -38,24 +39,7 @@ export const PuzzleListPage = (): ReactElement => {
     },
   ];
 
-  // TODO uncomment after task TR-29
-  // const [, data] = useGetAllQuestionInfos();
-  const data = [
-    {
-      id: 1,
-      name: "send + more = money",
-      triedCount: 19,
-      solvedCount: 15,
-      likeCount: 11,
-    },
-    {
-      id: 4,
-      name: "Test task",
-      triedCount: 14,
-      solvedCount: 7,
-      likeCount: 4,
-    },
-  ];
+  const [, data] = useGetAllQuestionInfos();
 
   return (
     <>
